@@ -24,7 +24,6 @@ const playRound = (event) => {
         computerMoveImg.alt = computerChoice;
     }
     else{
-        console.log("test");
         for(let image of document.querySelectorAll(".image-container")){
             image.textContent = "";
         }
@@ -47,6 +46,21 @@ const playRound = (event) => {
     else{
         computerScore.textContent = (parseInt(computerScore.textContent)+1).toString();
     }
+
+    if(parseInt(playerScore.textContent)===5){
+        gameContainer.remove();
+        const end = document.createElement("h2");
+        end.textContent = "You Win!"
+
+        main.append(end);
+    }
+    else if(parseInt(computerScore.textContent)===5){
+        gameContainer.remove();
+        const end = document.createElement("h2");
+        end.textContent = "You Lose!"
+
+        main.append(end);
+    }
 }
 
 let lastMovePlayer;
@@ -57,6 +71,10 @@ const playerScore = document.querySelector("#pScore");
 const computerScore = document.querySelector("#cScore");
 const playerMove = document.querySelector("#pMove");
 const computerMove = document.querySelector("#cMove");
+const gameContainer = document.querySelector(".content");
+const main = document.querySelector(".container");
+
+const initContent = gameContainer.innerHTML;
 
 for(let button of buttons){
     button.addEventListener("click",playRound);
