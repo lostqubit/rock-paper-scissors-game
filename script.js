@@ -51,30 +51,76 @@ const playRound = (event) => {
         gameContainer.remove();
         const end = document.createElement("h2");
         end.textContent = "You Win!"
+        const playAgain = document.createElement("button");
+        playAgain.setAttribute("class","end");
+        playAgain.textContent = "Play Again";
 
         main.append(end);
+        main.append(playAgain);
+
+        playAgain.addEventListener("click", () => {
+            main.innerHTML = initContent;
+            for(let button of document.querySelectorAll("button")){
+                button.addEventListener("click",playRound);
+            }
+
+            lastMovePlayer = undefined;
+            lastMoveComputer = undefined;
+
+            playerScore = document.querySelector("#pScore");
+            computerScore = document.querySelector("#cScore");
+            playerMove = document.querySelector("#pMove");
+            computerMove = document.querySelector("#cMove");
+            gameContainer = document.querySelector(".content");
+            main = document.querySelector(".container");
+            
+            initContent = main.innerHTML;
+        });
     }
     else if(parseInt(computerScore.textContent)===5){
         gameContainer.remove();
         const end = document.createElement("h2");
         end.textContent = "You Lose!"
+        const playAgain = document.createElement("button");
+        playAgain.setAttribute("class","end");
+        playAgain.textContent = "Play Again";
 
         main.append(end);
+        main.append(playAgain);
+
+        playAgain.addEventListener("click", () => {
+            main.innerHTML = initContent;
+            for(let button of document.querySelectorAll("button")){
+                button.addEventListener("click",playRound);
+            }
+            lastMovePlayer = undefined;
+            lastMoveComputer = undefined;
+
+            playerScore = document.querySelector("#pScore");
+            computerScore = document.querySelector("#cScore");
+            playerMove = document.querySelector("#pMove");
+            computerMove = document.querySelector("#cMove");
+            gameContainer = document.querySelector(".content");
+            main = document.querySelector(".container");
+            
+            initContent = main.innerHTML;
+
+        });
     }
 }
 
 let lastMovePlayer;
 let lastMoveComputer;
 
-const buttons = document.querySelectorAll("button");
-const playerScore = document.querySelector("#pScore");
-const computerScore = document.querySelector("#cScore");
-const playerMove = document.querySelector("#pMove");
-const computerMove = document.querySelector("#cMove");
-const gameContainer = document.querySelector(".content");
-const main = document.querySelector(".container");
+let buttons = document.querySelectorAll("button");
+let playerScore = document.querySelector("#pScore");
+let computerScore = document.querySelector("#cScore");
+let playerMove = document.querySelector("#pMove");
+let computerMove = document.querySelector("#cMove");
+let gameContainer = document.querySelector(".content");
+let main = document.querySelector(".container");
 
-const initContent = gameContainer.innerHTML;
+let initContent = main.innerHTML;
 
 for(let button of buttons){
     button.addEventListener("click",playRound);
