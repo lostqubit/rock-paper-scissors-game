@@ -1,64 +1,41 @@
-function getComputerChoice(){
+const getComputerChoice = () => {
     let choice = Math.floor(Math.random()*3);
-    if(choice===0) return "rock";
-    else if(choice===1) return "paper";
-    else return "scissors";
+    if(choice===0) return "Rock";
+    else if(choice===1) return "Paper";
+    else return "Scissor";
 }
 
-function getHumanChoice(){
-    let choice = prompt("Enter your move:");
-    choice = choice.toLowerCase();
-    while(choice!=="rock" && choice!=="paper" && choice!="scissors"){
-        alert("Please Enter a valid move");
-        choice = prompt("Enter your move:");
-    }
-
-    return choice;
+const computeRoundResult = (playerChoice,computerChoice) => {
+    if(playerChoice===computerChoice) return 0;
+    else if((playerChoice==="Rock" && computerChoice==="Scissor") || (playerChoice==="Scissor" && computerChoice==="Paper") || (playerChoice==="Paper" && computerChoice==="Rock")) return 1;
+    else return -1;
 }
 
-function playGame(){
-    let humanScore = 0;
-    let computerScore = 0;
+const playRound = (event) => {
+    const playerChoice = event.target.id;
+    const computerChoice = getComputerChoice();
 
-    function playRound(humanChoice,computerChoice){
-        if(humanChoice===computerChoice){
-            alert(`Tie! Computer chose ${computerChoice[0].toUpperCase()+computerChoice.slice(1)}.`);
-            return 0;
-        }
-        else if((humanChoice==="rock" && computerChoice==="scissors") || (humanChoice==="scissors" && computerChoice==="paper") || (humanChoice==="paper" && computerChoice==="rock")){
-            alert(`You win! Computer chose ${computerChoice[0].toUpperCase()+computerChoice.slice(1)}. ${humanChoice[0].toUpperCase() + humanChoice.slice(1)} beats ${computerChoice[0].toUpperCase()+computerChoice.slice(1)}.`);
-            return 1;
-        }
-        else{
-            alert(`You Lose! Computer chose ${computerChoice[0].toUpperCase()+computerChoice.slice(1)}. ${computerChoice[0].toUpperCase()+computerChoice.slice(1)} beats ${humanChoice[0].toUpperCase() + humanChoice.slice(1)}.`);
-            return -1;
-        }
-    }
+    playerMove.textContent = " " + playerChoice;
+    computerMove.textContent = " " + computerChoice;
 
-    let rounds = 5;
+    const outcome = computeRoundResult(playerChoice,computerChoice);
 
-    while(rounds--){
-        let humanMove = getHumanChoice();
-        let computerMove = getComputerChoice();
-        let res = playRound(humanMove,computerMove);
-
-        if(res===1){
-            humanScore++;
-        }
-        else if(res===-1){
-            computerScore++;
-        }
-        
-    }
-
-    if(humanScore===computerScore){
-        alert(`Tie! You: ${humanScore} Computer: ${computerScore}`);
-    }
-    else if(humanScore>computerScore){
-        alert(`You Win! You: ${humanScore} Computer: ${computerScore}`);
+    if(outcome==0) return;
+    else if(outcome===1){
+        playerScore.textContent = (parseInt(playerScore.textContent)+1).toString();
     }
     else{
-        alert(`You Lose! You: ${humanScore} Computer: ${computerScore}`);
+        computerScore.textContent = (parseInt(computerScore.textContent)+1).toString();
     }
+}
+
+const buttons = document.querySelectorAll("button");
+const playerMove = document.querySelector("#pMove");
+const computerMove = document.querySelector("#cMove");
+const playerScore = document.querySelector("#pScore");
+const computerScore = document.querySelector("#cScore");
+
+for(let button of buttons){
+    button.addEventListener("click",playRound);
 }
 
